@@ -11,9 +11,22 @@ from execution_tracker import log_execution_time, reset_run_count, get_execution
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service as chrome_service
 from selenium.webdriver.chrome.service import Service as ff_service
+from selenium.webdriver.chrome.options import Options
 import concurrent.futures as concur
 
+import tempfile
 
+def launch_chrome_driver():
+    chrome_options = Options()
+
+    # Create a temporary directory for user data
+    temp_profile = tempfile.mkdtemp()
+    chrome_options.add_argument(f"--user-data-dir={temp_profile}")
+
+    # Optional: run headless if needed
+    # chrome_options.add_argument("--headless")
+
+    return webdriver.Chrome(options=chrome_options)
 ########################################### GLOBAL VARIABLES ######################################
 
 # Download path
@@ -691,8 +704,9 @@ def main():
     else:
         # Example: initialize ChromeDriver or FirefoxDriver
         from selenium import webdriver
-        driver = webdriver.Chrome()  # or Firefox()
+        driver = launch_chrome_driver()
         interactive_main(driver)
+
 
 
     # Log the execution time once the script has finished
