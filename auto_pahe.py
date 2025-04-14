@@ -16,6 +16,11 @@ import concurrent.futures as concur
 
 import tempfile
 
+chrome_options = Options()
+chrome_options.add_argument('--headless=new')
+chrome_options.add_argument('--disable-gpu')
+
+
 def launch_chrome_driver():
     chrome_options = Options()
 
@@ -704,7 +709,7 @@ def main():
     else:
         # Example: initialize ChromeDriver or FirefoxDriver
         from selenium import webdriver
-        driver = launch_chrome_driver()
+        driver = webdriver.Chrome(options=chrome_options)
         interactive_main(driver)
 
 
