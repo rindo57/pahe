@@ -689,8 +689,11 @@ def main():
     if any(vars(args).values()):
         command_main(args)
     else:
-        # If no arguments are provided, run the interactive main function
-        interactive_main()
+        # Example: initialize ChromeDriver or FirefoxDriver
+        from selenium import webdriver
+        driver = webdriver.Chrome()  # or Firefox()
+        interactive_main(driver)
+
 
     # Log the execution time once the script has finished
     log_execution_time(start_time)
@@ -707,4 +710,3 @@ if __name__ == '__main__':
 else:
     # If the script is imported as a module, display the header
     Banners.header()
-
