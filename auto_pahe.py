@@ -15,10 +15,30 @@ from selenium.webdriver.chrome.options import Options
 import concurrent.futures as concur
 
 import tempfile
+import os
 
-chrome_options = Options()
-chrome_options.add_argument('--headless=new')
-chrome_options.add_argument('--disable-gpu')
+def launch_chrome_driver():
+    chrome_options = Options()
+
+    # Create a temporary user data dir
+    temp_profile = tempfile.mkdtemp()
+    print(f"Using temp profile dir: {temp_profile}")
+
+    chrome_options.add_argument(f"--user-data-dir={temp_profile}")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--disable-extensions")
+
+    # OPTIONAL: Use headless if no GUI is needed
+    # chrome_options.add_argument("--headless=new")
+
+    # DEBUG logging
+    chrome_options.add_argument("--log-level=3")
+
+    driver = webdriver.Chrome(options=chrome_options)
+    return driver
+'''
 
 
 def launch_chrome_driver():
@@ -32,6 +52,8 @@ def launch_chrome_driver():
     # chrome_options.add_argument("--headless")
 
     return webdriver.Chrome(options=chrome_options)
+
+'''
 ########################################### GLOBAL VARIABLES ######################################
 
 # Download path
@@ -709,7 +731,7 @@ def main():
     else:
         # Example: initialize ChromeDriver or FirefoxDriver
         from selenium import webdriver
-        driver = webdriver.Chrome(options=chrome_options)
+        driver = launch_chrome_driver()
         interactive_main(driver)
 
 
