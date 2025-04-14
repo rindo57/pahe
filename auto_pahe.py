@@ -17,27 +17,27 @@ import concurrent.futures as concur
 import tempfile
 import os
 
+
+
 def launch_chrome_driver():
     chrome_options = Options()
 
-    # Create a temporary user data dir
-    temp_profile = tempfile.mkdtemp()
-    print(f"Using temp profile dir: {temp_profile}")
-
-    chrome_options.add_argument(f"--user-data-dir={temp_profile}")
+    # Completely avoid user profile issues
+    chrome_options.add_argument("--no-first-run")
+    chrome_options.add_argument("--no-default-browser-check")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--remote-debugging-port=9222")  # Isolate session
+    chrome_options.add_argument("--headless=new")  # Optional: run without GUI
 
-    # OPTIONAL: Use headless if no GUI is needed
-    # chrome_options.add_argument("--headless=new")
-
-    # DEBUG logging
+    # Log level
     chrome_options.add_argument("--log-level=3")
 
     driver = webdriver.Chrome(options=chrome_options)
     return driver
+
 '''
 
 
